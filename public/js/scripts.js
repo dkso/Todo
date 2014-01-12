@@ -18,11 +18,17 @@ jQuery(document).ready(function() {
 	
 	jQuery('.nueva_tarea').css('display', 'none');
 	
+	jQuery('.actualizar_tarea').css('display', 'none');
+	
 	crearTask(socket);
 	
 	// Borramos una nueva tarea lo ponemos aquí para que funcione después de que cargue
 	
 	deleteTask(socket);
+	
+	// Editar task
+	
+	editTask(socket);
 	
 	// Envío de todas las peticiones
 	
@@ -64,13 +70,13 @@ jQuery(document).ready(function() {
 		
 		for (var i = 0; i < data.tasks.length; i++) {
 		   
-		   jQuery('.tasks ul').append('<li><span class="texto_task">' + data.tasks[i].task + '</span> <a href="/editar/' + data.tasks[i].task + '" class="editar_task">Editar</a> <a href="#" class="borrar_task">Borrar</a></li>');
+		   jQuery('.tasks ul').append('<li><span class="texto_task">' + data.tasks[i].task + '</span> <a href="/" class="editar_task">Editar</a> <a href="/" class="borrar_task">Borrar</a></li>');
 		   
 		} 
 		
 		// Añadimos usuario a los form de edicion
 		
-		var task = data.tasks[0]
+		var task = data.tasks[0];
 		
 		if( typeof task !== 'undefined') {
 		
@@ -132,6 +138,12 @@ function crearTask(socket) {
 			nueva_tarea: jQuery('input.nueva_tarea').val()
 			
 		});
+		
+		jQuery('.nueva_tarea').fadeOut(2000);
+		
+		jQuery('input.nueva_tarea').val('');
+		
+		jQuery('input.user').remove();
 			
 	});			
 	
@@ -151,6 +163,45 @@ function deleteTask(socket) {
 		
 			nombre: jQuery('.user').val(),
 			borrar_tarea: jQuery(this).closest('li').find('span.texto_task').text()
+			
+		});
+		
+		jQuery('input.user').remove();
+		
+	});
+		
+}
+
+// Actualizar tarea
+
+function editTask(socket) {
+	
+	jQuery(document).on('click', 'a.editar_task', socket, function(e) {
+		
+		e.preventDefault();
+		
+		jQuery('.tarea_seleccionada').val( jQuery(this).closest('li').find('span.texto_task').text() );	
+		
+		jQuery('.oldTask').val( jQuery(this).closest('li').find('span.texto_task').text() );
+		
+		jQuery('.actualizar_tarea').fadeIn(2000);
+		
+		
+		jQuery('.actualizar_tarea_seleccionada').click(function(e) {
+		
+			e.preventDefault();
+			
+			socket.emit('editar tarea', { 
+			
+				nombre: jQuery('.user').val(),
+				tarea: jQuery('input.oldTask').val(),
+				editar_tarea: jQuery('input.tarea_seleccionada').val()
+				
+			});
+		
+			jQuery('.actualizar_tarea').fadeOut(2000);
+			
+			jQuery('input.tarea_seleccionada').val('');
 			
 		});
 		

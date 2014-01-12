@@ -272,6 +272,55 @@ io.sockets.on('connection', function(socket) {
 		});
 	});
 	
+	// Editar task
+	
+	socket.on('editar tarea', function (data) {
+    	
+    	var usuario = data.nombre,
+    		oldTask = data.tarea,
+    		editar_tarea = data.editar_tarea,
+    		sql = 'UPDATE todoApp_tasks SET task="' + editar_tarea + '" WHERE task=' + connection.escape(oldTask) + ' AND user= ' + connection.escape(usuario);
+			
+		// UPDATE `todoApp_tasks` SET `id`=[value-1],`task`=[value-2],`user`=[value-3],`Fecha Final`=[value-4],`hash`=[value-5] WHERE 1
+		connection.query(sql, function(err, results) {
+			 
+			 if(!err) {
+				
+				// Enviamos de nuevo los resultados
+				
+				var usuario = data.nombre,
+					query    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+				
+				connection.query(query, function(err, results) {
+
+					if(!err) {
+					
+						socket.emit('enviamos msg', { 
+							msg: 'Se ha actualizado una tarea con exito'
+						});
+						
+						socket.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
+					} else {
+						
+						console.log('Ha ocurrido un error: ' + err );
+					}
+					
+				});
+				
+				// 
+					
+			} else {
+				
+				console.log( 'Ha ocurrrido un error en la consulta: ' + err );
+				
+			}
+			
+		});
+	});
+		
 	// Desconexión Usuarios
 	
 	socket.on('disconnect', function () {
