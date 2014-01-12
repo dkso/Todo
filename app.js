@@ -16,9 +16,13 @@ server.listen(3000);
 app.configure(function(){
   app.set('views', __dirname + '/vista');
   app.set("view options", { layout: false }) 
-  //app.engine('html', require('ejs').renderFile); // Tiene que estar cargado el módulo ejs para cargar .html
   app.use(express.favicon());
+  app.use(express.logger('dev'));
   app.use(express.bodyParser());
+  
+  app.use(express.cookieParser()); // Mostrar información de las coockies
+  app.use(express.session({ secret: 'Esto es secreto'})); // Mostrar información de las sesiones
+  
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
@@ -31,6 +35,10 @@ app.configure('development', function(){
 /*app.configure('production', function(){
   app.use(express.errorHandler()); 
 });*/
+
+// Sesión de usuario
+
+
 
 // Configuración MySQL
 
@@ -84,10 +92,6 @@ function handleDisconnect() {
 // Enrutamiento de las páginas
 
 app.get('/', function(req, res){
-
-	/*var data = 'Esto es una prueba';
-
-    res.render('index.html');*/
     
       fs.readFile(__dirname + '/vista/index.html', function (err, data) {
 	  
@@ -95,7 +99,7 @@ app.get('/', function(req, res){
 	    
 	      res.writeHead(500);
 	      
-	      return res.end('Error loading index.html');
+	      return res.end('Error al cargar index.html');
 	      
 	    }
 	
@@ -105,6 +109,52 @@ app.get('/', function(req, res){
 	  });
     
 });
+
+// De vuelta con la sesión iniciada
+
+app.get('/:user', function(req, res){
+    
+      fs.readFile(__dirname + '/vista/index.html', function (err, data) {
+	  
+	    if (err) {
+	    
+	      res.writeHead(500);
+	      
+	      return res.end('Error al cargar index.html');
+	      
+	    }
+	
+	    	res.writeHead(200);
+			res.end(data);
+			
+	  });
+    
+});
+
+// Creamos una nueva tarea
+
+app.get('/todo', function(req, res){
+	
+	// La sesión de usuario es
+	
+      fs.readFile(__dirname + '/vista/todo.html', function (err, data) {
+	  
+	    if (err) {
+	    
+	      res.writeHead(500);
+	      
+	      return res.end('Error al cargar la página.');
+	      
+	    }
+	
+    	res.writeHead(200);
+		res.end(data);
+			
+	  });
+    
+});
+
+// Sesión con Socket.io
 
 // Empezamos con las conexiones de Socket.io
 
@@ -122,6 +172,106 @@ io.sockets.on('connection', function(socket) {
 	
 	login(socket);
 	
+	// Recuperamos los tasks
+	
+	socket.on('recuperamos tasks', function (data) {
+    	
+    	var usuario = data.user,
+			sql    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+		
+		connection.query(sql, function(err, results) {
+			
+			if(!err) {
+				
+				socket.emit('enviamos tasks', { 
+					tasks: results
+				});
+				
+			}
+			
+		});
+	});
+	
+	// Nuevo task
+	
+	socket.on('nueva tarea', function (data) {
+    	
+    	var usuario = data.nombre,
+    		nueva_tarea = data.nueva_tarea		
+			post  = {task: nueva_tarea, user: usuario};
+			
+		connection.query('INSERT INTO todoApp_tasks SET ?', post, function(err, results) {
+			 
+			 if(!err) {
+				
+				// Enviamos de nuevo los resultados
+				
+				var usuario = data.nombre,
+					sql    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+				
+				connection.query(sql, function(err, results) {
+
+					if(!err) {
+					
+						socket.emit('enviamos msg', { 
+							msg: 'Se ha creado una nueva tarea con exito'
+						});
+						
+						socket.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
+					}
+					
+				});
+				
+				// 
+					
+			}
+			
+		});
+	});
+	
+	// Borrar task
+	
+	socket.on('borrar tarea', function (data) {
+    	
+    	var usuario = data.nombre,
+    		borrar_tarea = data.borrar_tarea,
+    		sql = 'DELETE FROM todoApp_tasks WHERE task=' + connection.escape(borrar_tarea) + 'AND user=' + connection.escape(usuario);
+			
+		connection.query(sql, function(err, results) {
+			 
+			 if(!err) {				
+				
+				var usuario = data.nombre,
+					sql    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+				
+				connection.query(sql, function(err, results) {
+
+					if(!err) {
+						
+						socket.emit('enviamos msg', { 
+							msg: 'Se ha borrado la tarea con exito'
+						});
+						
+						socket.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
+					}
+					
+				});
+					
+			} else {
+				
+				console.log('Ha ocurrido un error: ' + err);
+				
+			}
+			
+		});
+	});
+	
 	// Desconexión Usuarios
 	
 	socket.on('disconnect', function () {
@@ -131,12 +281,15 @@ io.sockets.on('connection', function(socket) {
 });
 
 // Manejo funciones MySQL
+
 function login(socket) {
+
+	var sessionActive;
 	
 	socket.on('sesion login', function (data) { 
 		
 		var nombre = data.nombre,
-			passwd = crypto.createHash('md5').update(data.passwd).digest("hex"),
+			passwd = crypto.createHash('md5').update(data.passwd).digest("hex"), // Encriptamos el passwd con MD5
 			sql    = 'SELECT user FROM todoApp_usuarios WHERE user = ' + connection.escape(nombre) + 'AND passwd = ' + connection.escape(passwd);
 		
 		connection.query(sql, function(err, results) {
@@ -147,10 +300,10 @@ function login(socket) {
 					user: results[0]
 				});
 				
-			}	 	
-		 	
+			}
+			
 		});
-		
+				
 	});
 	
 }
