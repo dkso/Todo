@@ -161,7 +161,7 @@ app.get('/todo', function(req, res){
 io.sockets.on('connection', function(socket) {
 
 	// Enviamos al cliente
-  	socket.emit('bienvenida', { Bienvenida: 'Bienvenido, estamos conectados' });
+  	socket.emit('bienvenida', { Bienvenida: 'Bienvenido a NodeJs & Socket.io' });
   
   	// Recibimos respuesta del cliente
   	socket.on('respuesta bienvenida', function (data) {
@@ -214,7 +214,7 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 												
 						socket.broadcast.emit('enviamos msg', { 
-							msg: 'Se ha creado una tarea con exito'
+							msg: '<span class="success">Se ha creado una tarea con exito</span>'
 						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
@@ -222,7 +222,7 @@ io.sockets.on('connection', function(socket) {
 						});
 						
 						socket.emit('enviamos msg', { 
-							msg: 'Se ha creado una tarea con exito'
+							msg: '<span class="success">Se ha creado una tarea con exito</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -260,7 +260,7 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 						
 						socket.broadcast.emit('enviamos msg', { 
-							msg: 'Se ha borrado una tarea con exito'
+							msg: '<span class="success">Se ha borrado una tarea con exito</span>'
 						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
@@ -268,7 +268,7 @@ io.sockets.on('connection', function(socket) {
 						});
 						
 						socket.emit('enviamos msg', { 
-							msg: 'Se ha borrado una tarea con exito'
+							msg: '<span class="success">Se ha borrado una tarea con exito</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -312,7 +312,7 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 					
 						socket.broadcast.emit('enviamos msg', { 
-							msg: 'Se ha actualizado una tarea con exito'
+							msg: '<span class="success">Se ha actualizado una tarea con exito</span>'
 						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
@@ -320,7 +320,7 @@ io.sockets.on('connection', function(socket) {
 						});
 						
 						socket.emit('enviamos msg', { 
-							msg: 'Se ha actualizado una tarea con exito'
+							msg: '<span class="success">Se ha actualizado una tarea con exito</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 

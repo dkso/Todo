@@ -1,0 +1,495 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ModalPro</title>
+	<link href="css/modal.css" rel="stylesheet" />
+	<link href="css/codigosStyle.css" rel="stylesheet" />	
+	<link href="styles/modalStyle1.css" rel="stylesheet" />
+	<link href='http://fonts.googleapis.com/css?family=Devonshire' rel='stylesheet' type='text/css'>
+	<script src="http://codeorigin.jquery.com/jquery-1.10.0.min.js"></script>
+	<script src="modalpro.js" type="text/javascript"></script>
+	<script>
+		jQuery.noConflict();
+		(function( $ ) {
+			$(function() {
+			
+				$(".my_modal").modalPro({
+					overlayColor: 'rgba(183,220,104,0.6)',
+					width: 400,
+					height: 400,
+					top: 50,
+					left: 50,
+					modalTitle: 'Bienvenidos',
+					secundaryCallbackButton: function() { alert('función personalizada Uno'); },
+					secundaryCallbackButton2: function() { alert('función personalizada Dos'); }
+				});
+						    
+			});
+		})(jQuery);
+	</script>
+</head>
+<body>
+	
+	<div class="contenedor">
+		<div class="logo">
+			<a href="/"><h1>Modal Pro v 1.0</h1></a>
+		</div>
+		
+		<h2><span class="pasos">Paso Uno -</span> Instalación del Plugin</h2>
+		<p>Lo primero que hacemos es incluir la librería de jQuery y hacemos la llamada a nuestro plugin de la forma habitual según dicta Javascript y <a href="http://api.jquery.com/ready/" target="_blank">Jquery</a> entre las etiquetas head. Es probable que tengamos que añadir <a href="http://api.jquery.com/jQuery.noConflict/" target="_blank">jQuery.noConflict();</a> cuando sea requerido si utilizamos otras librerías como <a href="http://mootools.net/" target="_blank">mootools</a> que también utilizan $, en cuanto a la librería funciona con todas las versiones si encontráis cualquier bug no dudéis en <a href="mailto:daniel_ariza@exclusivedesign.es">decírmelo</a> y lo arreglaré lo antes posible.</p>
+		
+		<p>Si nos fijamos en este ejemplo básico cargamos el CSS de ejemplo para que inicialmente la ventana modal quede igual que en el ejemplo, aunque por defecto el plugin carga una configuración básica para que podáis empezar a trabajar desde el principio y una opción para que creeis vuestros propios estilos, pero no os preocupéis, eso lo miraremos más adelante, en el Paso 2.</p>
+		
+		<div class="codigo">
+			<ol>
+				<li>
+					<span class="etiqueta">&lt;head&gt;</span>
+				</li>
+				<li> 
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;link</span>
+						<span class="atributo">href</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">styles/modalStyle1.css</span>
+						<span class="comillas">" </span>
+						<span class="atributo">type</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">text/css</span>
+						<span class="comillas">" </span>
+						<span class="atributo">rel</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">stylesheet</span>
+						<span class="comillas">" </span>
+						<span class="etiqueta">/&gt;</span>
+					</span>
+				</li>
+				<li> 
+					<!-- <script src="http://codeorigin.jquery.com/jquery-1.10.0.min.js" type="text/javascript"></script> -->
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;script</span>
+						<span class="atributo">src</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">http://codeorigin.jquery.com/jquery-1.10.0.min.js</span>
+						<span class="comillas">" </span>
+						<span class="atributo">type</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">text/javascript</span>
+						<span class="comillas">" </span>
+						<span class="etiqueta">&gt;</span>
+						<span class="etiqueta">&lt;/script&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;script</span>
+						<span class="atributo">type</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">text/javascript</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+					</span>
+				</li>
+				<li> 
+					<span class="sangriaTres">
+						<span class="atributo">jQuery</span>
+						(
+						<span class="funcion">document</span>
+						)
+						<span class="evento">.ready</span>
+						(
+						<span class="funcion">function</span>
+						) {
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCuatro">
+						<span class="atributo">jQuery</span>
+						(
+						<span class="selector">".my_modal"</span>
+						)
+						<span class="evento">.modalPro</span>
+						();
+					</span>
+				</li>
+				<li>
+					<span class="sangriaTres">
+						});
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;/script&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="etiqueta">&lt;/head&gt;</span>
+				</li>
+			</ol>
+		</div>
+		
+		<p>El segundo paso es escribir el HTML de la forma habitual, ya sabes entre las etiquetas body como mostramos a continuación. Todas las clases o id del HTML los podemos customizar, más adelante hablaremos de ello, y cada ventana modal tendrá que tener un selector diferente para que no haya conflictos entre las ventanas modales, a excepción del selector de estilo general que os enseñaré a utilizar en el Paso 2.</p>
+		
+		<div class="codigo">
+			<ol>
+				<li>
+					<span class="etiqueta">&lt;body&gt;</span>
+				</li>
+				<li> 	
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;div</span>
+						<span class="atributo">class</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">my_modal</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaDos">
+						<span class="comentarios">&lt;--! Aquí nuestros comentarios ... --&gt;</span>
+					</span>
+				</li>
+				<li> 	
+					<span class="sangriaDos">
+						<span class="etiqueta">&lt;button</span>
+						<span class="atributo">class</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">agree_modal</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+						Aceptar
+						<span class="etiqueta">&lt;/button&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaDos">
+						<!-- Botón Dos -->
+						<span class="etiqueta">&lt;button</span>
+						<span class="atributo">class</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">customButton</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+						Custom Button
+						<span class="etiqueta">&lt;/button&gt;</span>
+						<!-- Botón Dos -->
+					</span>
+				</li>
+				<li>
+					<span class="sangriaDos">
+						<span class="etiqueta">&lt;button</span>
+						<span class="atributo">class</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">customButton2</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+						Custom Button2
+						<span class="etiqueta">&lt;/button&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;/div&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="comentarios">&lt;--! Ponemos nuestro botón para ejecutar la ventana modal ... --&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;button</span>
+						<span class="atributo">class</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">modaLunch</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+						Lanzar Ejemplo
+						<span class="etiqueta">&lt;/button&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="etiqueta">&lt;/body&gt;</span>
+				</li>
+			</ol>
+		</div>
+	
+		<!-- Empezamos la ventana modal -->	
+		<div class="my_modal">
+		
+			<img src="img/wordpress_admin.png" />
+			
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu ultrices ligula. Ut rutrum ullamcorper nisi, eget condimentum elit convallis eu. Vivamus aliquam, velit eget feugiat lobortis, elit purus pretium dolor, at consectetur urna orci quis ante. In purus ipsum, pretium vel ante vitae, pharetra.</p>
+			
+			<button class="agree_modal">Aceptar</button>
+			<button class="customButton">Custom Button</button>
+			<button class="customButton2">Custom Button2</button>
+			
+		</div>
+		
+		<button class="modaLunch agree">Lanzar Ejemplo</button>
+		<!-- Terminamos la primera ventana modal -->
+	<!-- Fin del contenedor -->	
+		<hr class="hr_pasos">
+		<h2><span class="pasos">Paso Dos -</span> Opciones Generales</h2>
+		<p>En este paso vamos a ver todas las opciones de las que disponemos en este plugin, desde configurar nuestros propios estilos, cambiar la posición de la ventana modal, añadir un título, añadir nuestras propias funciones a los botones personalizados, cambiar textos, profundidades, etc.</p>
+		
+		<div class="codigo">
+			<ol>
+				<li>
+					<span class="etiqueta">&lt;head&gt;</span>
+				</li>
+				<li> 
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;link</span>
+						<span class="atributo">href</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">youtCustomStyle.css</span>
+						<span class="comillas">" </span>
+						<span class="atributo">type</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">text/css</span>
+						<span class="comillas">" </span>
+						<span class="atributo">rel</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">stylesheet</span>
+						<span class="comillas">" </span>
+						<span class="etiqueta">/&gt;</span>
+					</span>
+				</li>
+								<li> 
+					<!-- <script src="http://codeorigin.jquery.com/jquery-1.10.0.min.js" type="text/javascript"></script> -->
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;script</span>
+						<span class="atributo">src</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">http://codeorigin.jquery.com/jquery-1.10.0.min.js</span>
+						<span class="comillas">" </span>
+						<span class="atributo">type</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">text/javascript</span>
+						<span class="comillas">" </span>
+						<span class="etiqueta">&gt;</span>
+						<span class="etiqueta">&lt;/script&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;script</span>
+						<span class="atributo">type</span>
+						<span class="igual">=</span>
+						<span class="comillas">"</span>
+						<span class="rutas">text/javascript</span>
+						<span class="comillas">"</span>
+						<span class="etiqueta">&gt;</span>
+					</span>
+				</li>
+				<li> 
+					<span class="sangriaTres">
+						<span class="atributo">jQuery</span>
+						(
+						<span class="funcion">document</span>
+						)
+						<span class="evento">.ready</span>
+						(
+						<span class="funcion">function</span>
+						) {
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCuatro">
+						<span class="atributo">jQuery</span>
+						(
+						<span class="selector">".my_modal"</span>
+						)
+						<span class="evento">.modalPro</span>
+						({
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						modaLunch:
+						<span class="evento"> '.botonLanzaVentana'</span>,
+						<span class="comentarios"> // Clase o identificador que lanza la ventana modal.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						overlayActive:
+						<span class="evento"> true</span>,
+						<span class="comentarios"> // true o false sirve para activar o desactivar el fondo que está debajo de la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						overlayZindex:
+						<span class="evento"> 555</span>,
+						<span class="comentarios"> // Profundidad del fondo.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						overlayColor:
+						<span class="evento"> 'rgba(0, 0, 0, 0.8)'</span>,
+						<span class="comentarios"> // Color de fondo, acepta rgba(), rgb(), hexagesimal, hsla().</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						width:
+						<span class="evento"> 400</span>,
+						<span class="comentarios"> // Ancho de la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						height:
+						<span class="evento"> 400</span>,
+						<span class="comentarios"> // Alto de la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						top:
+						<span class="evento"> 40</span>,
+						<span class="comentarios"> // Posición respecto al borde superior de la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						left:
+						<span class="evento"> 50</span>,
+						<span class="comentarios"> // Posición respecto al borde izquierdo de la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						modalZindex:
+						<span class="evento"> 999</span>,
+						<span class="comentarios"> // Profundidad del fondo de la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						modalBackground:
+						<span class="evento"> '#FFF'</span>,
+						<span class="comentarios"> // Color de fondo de la ventana, acepta rgba(), rgb(), hexagesimal, hsla().</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						modalOverflow:
+						<span class="evento"> 'auto'</span>,
+						<span class="comentarios"> // Determinamos si queremos scroll dentro de la ventana modal.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						modalStyle:
+						<span class="evento"> 'tuClasePersonalizada'</span>,
+						<span class="comentarios"> // Con este selector aplicas tu estilo personalizado a la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						modalTitle:
+						<span class="evento"> 'Escribe un título'</span>,
+						<span class="comentarios"> // Escribe un título personalizado para la ventana.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						openInit:
+						<span class="evento"> true</span>,
+						<span class="comentarios"> // true, false, Activamos o desactivamos la ventana al entrar en la página.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						closeModalButton:
+						<span class="evento"> '.cerrarVentana'</span>,
+						<span class="comentarios"> // Selector para el botón cerrar.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						textCloseButton:
+						<span class="evento"> 'X'</span>,
+						<span class="comentarios"> // Pon lo que quieras para cerrar la ventana, por ejemplo la típica X.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						seundaryClassButton:
+						<span class="evento"> '.claseBotonPersonalizado1'</span>,
+						<span class="comentarios"> // Selector para el botón personalizado, personalízalo como quieras.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						secundaryCallbackButton:
+						<span class="funcion"> function() {  </span><span class="comentarios">// tu código</span><span class="funcion"> }</span>,
+						<span class="comentarios"> // Escribe tus propias funciones personalizadas para este botón.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						seundaryClassButton2:
+						<span class="evento"> '.claseBotonPersonalizado2'</span>,
+						<span class="comentarios"> // Selector para el botón personalizado, personalízalo como quieras.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCinco">
+						secundaryCallbackButton2:
+						<span class="funcion"> function() {  </span><span class="comentarios">// tu código</span><span class="funcion"> }</span>
+						<span class="comentarios"> // Escribe tus propias funciones personalizadas para este botón.</span>
+					</span>
+				</li>
+				<li>
+					<span class="sangriaCuatro">
+						});
+					</span>
+				</li>
+				<li>
+					<span class="sangriaTres">
+						});
+					</span>
+				</li>
+				<li>
+					<span class="sangriaUno">
+						<span class="etiqueta">&lt;/script&gt;</span>
+					</span>
+				</li>
+				<li>
+					<span class="etiqueta">&lt;/head&gt;</span>
+				</li>
+			</ol>
+		</div>
+		
+		<p>Puedes cambiar estos parámetros a tu antojo para personalizar cada una de tus ventanas modales independientemente unas de otras, y puedes poner todas estás opciones o dejarlas por defecto, la única obligatoria es "modaLunch", ya que cada ventana tiene que tener su propio botón disparador para que no haya conflicto, el resto de opciones son todas opciones, ponlas todas, escoge solo algunas o deja las que están por defecto, tu tienes eliges.</p>
+		
+		<p>Es importante que te fijes como están escritas las opciones, algunas llevan comas y otras no, si no respetamos como están escritas, seguramente el plugin no funcionará.</p>
+		
+	</div>
+		
+</body>
+</html>

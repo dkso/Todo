@@ -3,40 +3,99 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Todo</title>
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<div class="errors_msg"></div>
-	<div class="bienvenida">
-		<h1></h1>
-	</div>
-	
-	<div class="logInUsers">
-		<input type="text" class="user" placeholder="Usuario" />
-		<input type="password" class="passwd" />
-		<a href="/" class="enviarLogin">Regístrate</a>
-	</div>
-	
-	<div class="tasks">
-		<ul></ul>
-		<a href="/">Nueva tarea</a>
-	</div>
-	
-	<br>
-	
-	<div class="nueva_tarea">
-		<input type="text" class="nueva_tarea" placeholder="Escribe una tarea" />
-		<a href="/" class="crear_tarea">Crear tarea</a>
-	</div>
-	
-	<div class="actualizar_tarea">
-		<input type="text" class="tarea_seleccionada" />
-		<input type="hidden" class="oldTask" />
-		<a href="/" class="actualizar_tarea_seleccionada">Actualizar tarea</a>
+
+	<div class="main_content">
+		<div class="errors_msg"></div>
+		<div class="bienvenida">
+			<h1></h1>
+		</div>
+		
+		<div class="logInUsers">
+			<input type="text" class="user" placeholder="Usuario: Test" />
+			<input type="password" class="passwd" placeholder="Passwd: demo" />
+			<a href="/" class="enviarLogin">Regístrate</a>
+		</div>
+		
+		<div class="tasks">
+			<ul></ul>
+			<a href="/" class="nueva_tarea_link">Nueva tarea</a>
+		</div>
+		
+		<br>
+		
+		<div class="nueva_tarea">
+			<input type="text" class="nueva_tarea" placeholder="Escribe una tarea ..." />
+			<a href="/" class="crear_tarea">Crear tarea</a>
+		</div>
+		
+		<div class="actualizar_tarea">
+			<input type="text" class="tarea_seleccionada" />
+			<input type="hidden" class="oldTask" />
+			<a href="/" class="actualizar_tarea_seleccionada">Actualizar tarea</a>
+		</div>
+		
+		<footer>
+			<p>Todo con Node.JS & Socket.IO por <a href="#">Daniel Ariza</a></p>
+		</footer>
+		
 	</div>
 	
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/js/scripts.js"></script>
+	<script src="/js/modalpro.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+			$(function() {
+                        
+                $("div.nueva_tarea").modalPro({
+                    modal: this,
+					modaLunch: '.nueva_tarea_link',
+					overlayActive: false, // config true, false
+					width: 400,
+					height: 210,
+					top: 50,
+					left: 50,
+					modalZindex: 9999,
+					modalBackground: '#FFF',
+					modalOverflow: 'auto',
+					modalStyle: '_style_One',
+					modalTitle: 'Crear nueva tarea',
+					openInit: false, // true, false inicia la ventana al entrar en la página
+					closeModalButton: '.agree_modal',
+					textCloseButton: 'x',
+					seundaryClassButton: 'a.crear_tarea',
+					secundaryCallbackButton: null // Null or function(){}
+                });
+                
+                $("div.actualizar_tarea").modalPro({
+                    modal: true,
+					modaLunch: 'a.editar_task',
+					overlayActive: false, // config true, false
+					width: 400,
+					height: 210,
+					top: 50,
+					left: 50,
+					modalZindex: 9999,
+					modalBackground: '#FFF',
+					modalOverflow: 'auto',
+					modalStyle: '_style_One',
+					modalTitle: 'Actualizar una tarea',
+					openInit: false, // true, false inicia la ventana al entrar en la página
+					closeModalButton: '.agree_modal',
+					textCloseButton: 'x',
+					seundaryClassButton: 'a.actualizar_tarea_seleccionada',
+					secundaryCallbackButton: null // Null or function(){}
+                });
+
+                                
+			});
+			
+		});
+	</script>
 </body>
 </html>

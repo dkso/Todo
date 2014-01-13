@@ -1,0 +1,58 @@
+.codigo {
+	border-left: 4px solid #6CE26C;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.codigo ol > li {
+    padding-left: 20px;
+    list-style: decimal;
+}
+.codigo ol li:nth-child(even) {
+	background: #FFF;
+}
+.codigo ol li:nth-child(odd) {
+	background: #F8F8F8;
+}
+.etiqueta {
+	color: #5d46f4;
+}
+.atributo {
+	color: #fa9b47;
+}
+.igual {
+	color: #444;	
+}
+.comillas {
+	color: #05570f;
+}
+.rutas {
+	color: #f42933;
+}
+.funcion {
+	color: #f42933;
+}
+.evento {
+	color: #04c0ff;
+}
+.selector {
+	color: #f42933;
+}
+.comentarios {
+	color: #CCC;
+}
+/* Sangrías */
+.sangriaUno {
+	margin-left: 20px;
+}
+.sangriaDos {
+	margin-left: 40px;
+}
+.sangriaTres {
+	margin-left: 60px;
+}
+.sangriaCuatro {
+	margin-left: 80px;
+}
+.sangriaCinco {
+	margin-left: 100px;
+}

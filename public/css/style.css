@@ -1,8 +1,199 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #FFCE5F;
 }
-
 a {
   color: #00B7FF;
+}
+.errors_msg {
+    margin-left: 20px;
+    margin-top: 24px;
+    position: absolute;
+    width: 670px;
+}
+.errors_msg span.error {
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+    border-radius: 4px;
+    color: #A94442;
+    display: inline-block;
+    padding: 15px;
+    width: 670px;
+}
+.errors_msg span.success {
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    border-radius: 4px;
+    color: #3C763D;
+    display: inline-block;
+    padding: 15px;
+    width: 670px;
+}
+.bienvenida {
+    margin-top: 100px;
+}
+.bienvenida h1 {
+    border-bottom: 4px solid #71B5B8;
+    color: #555555;
+    font-size: 32px;
+    margin-left: 40px !important;
+    margin-right: 40px !important;
+    padding-bottom: 20px;
+    text-align: center;
+}
+.main_content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(0, 0, 0, 0.15) inset;
+    margin: auto;
+    min-height: 568px;
+    padding: 10px;
+    width: 744px;
+    overflow: auto;
+    border-radius: 4px;
+    margin-top: 80px;
+}
+div.tasks {
+	margin-top: 40px;
+	position: absolute;
+}
+.tasks ul {
+    margin-right: 40px;
+}
+.tasks ul li {
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    list-style: none outside none;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.tasks ul li:nth-child(2n+1) {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+.tasks > a {
+	opacity: 0;
+}
+.logInUsers {
+    padding-top: 40px;
+}
+.logInUsers > input {
+    border: 2px solid #F37F52;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px #EEEEEE inset;
+    color: #333333;
+    font-family: "SourceSansPro-LightIt",sans-serif;
+    font-size: 14px;
+    line-height: 12px;
+    margin: 5px 20px 20px;
+    outline: medium none;
+    padding: 7px 14px;
+    width: 670px;
+    height: 32px;
+}
+.enviarLogin {
+    -moz-box-sizing: border-box;
+    background: none repeat scroll 0 0 #71B5B8;
+    border-color: #23979B;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px 1px 3px !important;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px !important;
+    font-weight: bold;
+    margin-left: 296px;
+    margin-top: 40px;
+    overflow: hidden;
+    padding: 18px 32px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+.nueva_tarea_link {
+    -moz-box-sizing: border-box;
+    background: none repeat scroll 0 0 #71B5B8;
+    border-color: #23979B;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px 1px 3px !important;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px !important;
+    font-weight: bold;
+    margin-left: 296px;
+    margin-top: 40px;
+    overflow: hidden;
+    padding: 18px 32px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+div.nueva_tarea, div.actualizar_tarea {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 2px solid #F37F52;
+    padding: 14px 24px;
+}
+input.nueva_tarea, input.tarea_seleccionada {
+	outline: none;
+    border: 2px solid #EEEEEE;
+    height: 24px;
+    margin-right: 10px;
+    padding: 4px 4px 4px 8px;
+    width: 384px;
+    margin-bottom: 30px;
+}
+.custom_modal_style_One h2 {
+    border-bottom: 1px solid #CCCCCC;
+    color: #555555;
+    font-size: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    text-align: center;
+}
+.crear_tarea, .actualizar_tarea_seleccionada {
+	clear: both;
+	-moz-box-sizing: border-box;
+    background: none repeat scroll 0 0 #64CE83;
+    border-color: #3DC264;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px 1px 3px !important;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+    padding: 8px 16px;
+}
+.close_modal {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #A94442;
+    border-radius: 18px;
+    color: #A94442;
+    font-size: 12px;
+    height: 18px;
+    line-height: 16px;
+    text-align: center;
+    text-decoration: none;
+    width: 18px;
+}
+footer p {
+    color: #555555;
+    font-size: 12px;
+    margin-top: 42px;
+    text-align: center;
 }

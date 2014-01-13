@@ -48,7 +48,7 @@ jQuery(document).ready(function() {
 			
 		} else {
 		
-			jQuery('.errors_msg').html('Usuario o password incorrectos.');
+			jQuery('.errors_msg').html('<span class="error">Usuario o password incorrectos.</span>');
 		
 		}
 		
@@ -80,6 +80,10 @@ jQuery(document).ready(function() {
 		
 		if( typeof task !== 'undefined') {
 		
+			jQuery('.tasks > a').animate({
+				opacity: 1
+			}, 1000);
+		
 			jQuery('.nueva_tarea a').before('<input type="hidden" class="user" value="' + data.tasks[0].user + '" />');
 			
 		}
@@ -98,9 +102,11 @@ function LogIn(socket) {
 		
 		if( jQuery('.user').val() == '' || jQuery('.passwd').val() == '' ) {
 			
-			jQuery('.errors_msg').html('Alguno de los campos están vacíos');
+			jQuery('.errors_msg').html('<span class="error">Alguno de los campos están vacíos</span>');
 			
 		} else {
+			
+			jQuery('div.tasks').css('position', 'relative');
 			
 			socket.emit('sesion login', { 
 			
@@ -124,7 +130,7 @@ function crearTask(socket) {
 		
 		console.log('Hemos hecho click');
 		
-		jQuery('.nueva_tarea').fadeIn(2000);
+		jQuery('input.nueva_tarea').fadeIn(1000);
 		
 	});
 	
@@ -132,20 +138,30 @@ function crearTask(socket) {
 	
 		e.preventDefault();
 		
-		console.log('Hemos creado una nueva tarea');
-		
-		socket.emit('nueva tarea', { 
-		
-			nombre: jQuery('.user').val(),
-			nueva_tarea: jQuery('input.nueva_tarea').val()
+		if(jQuery('input.nueva_tarea').val() != '') {
 			
-		});
-		
-		jQuery('.nueva_tarea').fadeOut(2000);
-		
-		jQuery('input.nueva_tarea').val('');
-		
-		jQuery('input.user').remove();
+			socket.emit('nueva tarea', { 
+			
+				nombre: jQuery('.user').val(),
+				nueva_tarea: jQuery('input.nueva_tarea').val()
+				
+			});
+			
+			jQuery('input.nueva_tarea').attr('placeholder', 'Escribe una tarea ...');
+			
+			jQuery('input.nueva_tarea').css('border', '2px solid #EEEEEE');
+			
+			jQuery('input.nueva_tarea').val('');
+			
+			jQuery('input.user').remove();
+			
+		} else {
+			
+			jQuery('input.nueva_tarea').attr('placeholder', 'Escribe una tarea para continuar ...');
+			
+			jQuery('input.nueva_tarea').css('border', '2px solid #A94442');
+			
+		}
 			
 	});			
 	
@@ -186,7 +202,7 @@ function editTask(socket) {
 		
 		jQuery('.oldTask').val( jQuery(this).closest('li').find('span.texto_task').text() );
 		
-		jQuery('.actualizar_tarea').fadeIn(2000);
+		jQuery('.actualizar_tarea').fadeIn(1000);
 		
 		
 		jQuery('.actualizar_tarea_seleccionada').click(function(e) {
@@ -201,7 +217,7 @@ function editTask(socket) {
 				
 			});
 		
-			jQuery('.actualizar_tarea').fadeOut(2000);
+			jQuery('.actualizar_tarea').fadeOut(1000);
 			
 			jQuery('input.tarea_seleccionada').val('');
 			
