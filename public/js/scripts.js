@@ -88,6 +88,8 @@ jQuery(document).ready(function() {
 	
 });
 
+// Nos logueamos
+
 function LogIn(socket) {
 	
 	jQuery('.enviarLogin').click(function(event) {

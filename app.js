@@ -212,9 +212,17 @@ io.sockets.on('connection', function(socket) {
 				connection.query(sql, function(err, results) {
 
 					if(!err) {
-					
+												
+						socket.broadcast.emit('enviamos msg', { 
+							msg: 'Se ha creado una tarea con exito'
+						});
+						
+						socket.broadcast.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
 						socket.emit('enviamos msg', { 
-							msg: 'Se ha creado una nueva tarea con exito'
+							msg: 'Se ha creado una tarea con exito'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -251,8 +259,16 @@ io.sockets.on('connection', function(socket) {
 
 					if(!err) {
 						
+						socket.broadcast.emit('enviamos msg', { 
+							msg: 'Se ha borrado una tarea con exito'
+						});
+						
+						socket.broadcast.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
 						socket.emit('enviamos msg', { 
-							msg: 'Se ha borrado la tarea con exito'
+							msg: 'Se ha borrado una tarea con exito'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -295,6 +311,14 @@ io.sockets.on('connection', function(socket) {
 
 					if(!err) {
 					
+						socket.broadcast.emit('enviamos msg', { 
+							msg: 'Se ha actualizado una tarea con exito'
+						});
+						
+						socket.broadcast.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
 						socket.emit('enviamos msg', { 
 							msg: 'Se ha actualizado una tarea con exito'
 						});
@@ -302,6 +326,7 @@ io.sockets.on('connection', function(socket) {
 						socket.emit('enviamos tasks', { 
 							tasks: results
 						});
+
 						
 					} else {
 						
