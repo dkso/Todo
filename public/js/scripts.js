@@ -42,7 +42,7 @@ jQuery(document).ready(function() {
 				
 			jQuery('.bienvenida h1').html('Bienvenido ' +  data.user.user );
 			
-			jQuery('.logInUsers').fadeOut(1000);
+			jQuery('.logInUsers').fadeOut(100);
 			
 			socket.emit('recuperamos tasks', { user: data.user.user });
 			
@@ -70,7 +70,7 @@ jQuery(document).ready(function() {
 		
 		for (var i = 0; i < data.tasks.length; i++) {
 		   
-		   jQuery('.tasks ul').append('<li><span class="texto_task">' + data.tasks[i].task + '</span> <a href="/" class="editar_task">Editar</a> <a href="/" class="borrar_task">Borrar</a></li>');
+		   jQuery('.tasks ul').append('<li><span class="texto_task">' + data.tasks[i].task + '</span> <div class="buttons"><a href="/" class="editar_task">Editar</a> <a href="/" class="borrar_task">Borrar</a></div></li>');
 		   
 		} 
 		
