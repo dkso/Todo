@@ -32,6 +32,10 @@ jQuery(document).ready(function() {
 	
 	// Envío de todas las peticiones
 	
+	// Convertimos task inactivos
+	
+	inctiveTask(socket);
+	
 	socket.on('datos usuario', function (data) { 
 		
 		var usuario = data.user;
@@ -68,9 +72,20 @@ jQuery(document).ready(function() {
 	
 		jQuery('.tasks ul').empty();
 		
+		console.log(data);
+		
 		for (var i = 0; i < data.tasks.length; i++) {
+		
+			if( data.tasks[i].state == 0 ) {
 		   
-		   jQuery('.tasks ul').append('<li><span class="texto_task">' + data.tasks[i].task + '</span> <div class="buttons"><a href="/" class="editar_task">Editar</a> <a href="/" class="borrar_task">Borrar</a></div></li>');
+			   jQuery('.tasks ul').append('<li><input type="checkbox" class="ckeckbox_active"/> <span class="texto_task">' + data.tasks[i].task + '</span> <div class="buttons"><a href="/" class="editar_task"><i class="icon icon-pencil"></i> Editar</a> <a href="/" class="borrar_task"><i class="icon icon-remove"></i> Borrar</a></div></li>');
+			   
+			} else if(data.tasks[i].state == 1) {
+				
+			   jQuery('.tasks ul').append('<li><input type="checkbox" class="ckeckbox_active" checked/> <span class="texto_task estado_tarea">' + data.tasks[i].task + '</span> <div class="buttons"><a href="/" class="editar_task"><i class="icon icon-pencil"></i> Editar</a> <a href="/" class="borrar_task"><i class="icon icon-remove"></i> Borrar</a></div></li>');				
+				
+			}
+			   
 		   
 		} 
 		
@@ -225,4 +240,57 @@ function editTask(socket) {
 		
 	});
 		
+}
+
+// Seleccionamos items activos
+
+// Seleccionamos items incactivos
+
+function inctiveTask(socket) {
+	
+	jQuery(document).on('change', 'input.ckeckbox_active', function() {
+		
+		if  (jQuery(this).is(':checked') ) {
+		
+			jQuery(this).attr('checked', true);
+		
+			console.log('Active');
+			
+			jQuery(this).next('.texto_task').addClass('estado_tarea');			
+			//jQuery(this).closest('li').find('.icon-checkmark').css('color', '#64CE83');
+			
+			
+			// Envíamos petición al servidor para pasar a inactivo
+			
+			socket.emit('cambiamos estado', { 
+			
+				nombre: jQuery('.user').val(),
+				tarea_seleccionada: jQuery(this).next('.texto_task').text(),
+				estado: 1
+				
+			});
+			
+		} else {
+		
+			jQuery(this).attr('checked', false);
+		
+			console.log('Inactive');
+			
+			jQuery(this).next('.texto_task').removeClass('estado_tarea');			
+			//jQuery(this).closest('li').find('.icon-checkmark').css('color', '#333');
+			
+			socket.emit('cambiamos estado', { 
+			
+				nombre: jQuery('.user').val(),
+				tarea_seleccionada: jQuery(this).next('.texto_task').text(),
+				estado: 0
+				
+			});
+			
+		}
+		
+		return false;
+		
+	});
+	
 }

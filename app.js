@@ -177,7 +177,7 @@ io.sockets.on('connection', function(socket) {
 	socket.on('recuperamos tasks', function (data) {
     	
     	var usuario = data.user,
-			sql    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+			sql    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
 		
 		connection.query(sql, function(err, results) {
 			
@@ -198,7 +198,7 @@ io.sockets.on('connection', function(socket) {
     	
     	var usuario = data.nombre,
     		nueva_tarea = data.nueva_tarea		
-			post  = {task: nueva_tarea, user: usuario};
+			post  = {task: nueva_tarea, user: usuario, state: 0};
 			
 		connection.query('INSERT INTO todoApp_tasks SET ?', post, function(err, results) {
 			 
@@ -207,7 +207,7 @@ io.sockets.on('connection', function(socket) {
 				// Enviamos de nuevo los resultados
 				
 				var usuario = data.nombre,
-					sql    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+					sql    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
 				
 				connection.query(sql, function(err, results) {
 
@@ -253,7 +253,7 @@ io.sockets.on('connection', function(socket) {
 			 if(!err) {				
 				
 				var usuario = data.nombre,
-					sql    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+					sql    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
 				
 				connection.query(sql, function(err, results) {
 
@@ -297,7 +297,7 @@ io.sockets.on('connection', function(socket) {
     		editar_tarea = data.editar_tarea,
     		sql = 'UPDATE todoApp_tasks SET task="' + editar_tarea + '" WHERE task=' + connection.escape(oldTask) + ' AND user= ' + connection.escape(usuario);
 			
-		// UPDATE `todoApp_tasks` SET `id`=[value-1],`task`=[value-2],`user`=[value-3],`Fecha Final`=[value-4],`hash`=[value-5] WHERE 1
+		// UPDATE `todoApp_tasks` SET `id`=[value-1],`task`=[value-2],`user`=[value-3],`state`=[value-4] WHERE 1
 		connection.query(sql, function(err, results) {
 			 
 			 if(!err) {
@@ -305,7 +305,7 @@ io.sockets.on('connection', function(socket) {
 				// Enviamos de nuevo los resultados
 				
 				var usuario = data.nombre,
-					query    = 'SELECT task, user FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+					query    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
 				
 				connection.query(query, function(err, results) {
 
@@ -336,6 +336,63 @@ io.sockets.on('connection', function(socket) {
 				});
 				
 				// 
+					
+			} else {
+				
+				console.log( 'Ha ocurrrido un error en la consulta: ' + err );
+				
+			}
+			
+		});
+	});
+	
+	// Cambiamos estado de la tarea
+	
+	socket.on('cambiamos estado', function (data) {
+    	
+    	var usuario = data.nombre,
+    		tarea_seleccionada = data.tarea_seleccionada,
+    		estado = data.estado,
+    		sql = 'UPDATE todoApp_tasks SET task="' + tarea_seleccionada + '", state="' + estado + '" WHERE task=' + connection.escape(tarea_seleccionada) + ' AND user= ' + connection.escape(usuario);
+    		
+    	// UPDATE `todoApp_tasks` SET `id`=[value-1],`task`=[value-2],`user`=[value-3],`state`=[value-4] WHERE 1
+			
+		connection.query(sql, function(err, results) {
+			 
+			 if(!err) {
+				
+				var usuario = data.nombre,
+					query    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+				
+				connection.query(query, function(err, results) {
+
+					if(!err) {
+						
+						console.log('Resultados del estado' + results );
+					
+						socket.broadcast.emit('enviamos msg', { 
+							msg: '<span class="success">Otro usuario ha finalizado una tarea</span>'
+						});
+						
+						socket.broadcast.emit('enviamos tasks', { 
+							tasks: results
+						});
+						
+						socket.emit('enviamos msg', { 
+							msg: '<span class="success">Tarea finalizada</span>'
+						});
+						
+						socket.emit('enviamos tasks', { 
+							tasks: results
+						});
+
+						
+					} else {
+						
+						console.log('Ha ocurrido un error: ' + err );
+					}
+					
+				});
 					
 			} else {
 				

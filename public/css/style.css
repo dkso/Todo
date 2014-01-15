@@ -70,6 +70,9 @@ div.tasks {
 .tasks ul li:nth-child(2n+1) {
     background: none repeat scroll 0 0 #EEEEEE;
 }
+span.texto_task {
+	cursor: pointer;
+}
 .tasks > a {
 	opacity: 0;
 }
@@ -204,6 +207,13 @@ div.nueva_tarea, div.actualizar_tarea {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 2px solid #F37F52;
     padding: 14px 24px;
+}
+.ckeckbox_active {
+    margin-right: 4px;
+}
+.estado_tarea {
+	text-decoration: line-through;
+	color: #AAB3BB;
 }
 input.nueva_tarea, input.tarea_seleccionada {
 	outline: none;
