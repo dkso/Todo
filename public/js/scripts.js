@@ -130,6 +130,8 @@ function LogIn(socket) {
 				
 			});
 			
+			jQuery('.nueva_tarea').css('display', 'block');
+			
 		}
 		
 	});
@@ -145,36 +147,36 @@ function crearTask(socket) {
 		
 		console.log('Hemos hecho click');
 		
-		jQuery('input.nueva_tarea').fadeIn(1000);
-		
 	});
 	
-	jQuery('.crear_tarea').click(function(e) {
+	jQuery('input.nueva_tarea').keypress(function(e) {
 	
-		e.preventDefault();
-		
-		if(jQuery('input.nueva_tarea').val() != '') {
+    	if(e.which == 13) {
+	
+			e.preventDefault();
 			
-			socket.emit('nueva tarea', { 
-			
-				nombre: jQuery('.user').val(),
-				nueva_tarea: jQuery('input.nueva_tarea').val()
+			if(jQuery('input.nueva_tarea').val() != '') {
 				
-			});
-			
-			jQuery('input.nueva_tarea').attr('placeholder', 'Escribe una tarea ...');
-			
-			jQuery('input.nueva_tarea').css('border', '2px solid #EEEEEE');
-			
-			jQuery('input.nueva_tarea').val('');
-			
-			jQuery('input.user').remove();
-			
-		} else {
-			
-			jQuery('input.nueva_tarea').attr('placeholder', 'Escribe una tarea para continuar ...');
-			
-			jQuery('input.nueva_tarea').css('border', '2px solid #A94442');
+				socket.emit('nueva tarea', { 
+				
+					nombre: jQuery('.user').val(),
+					nueva_tarea: jQuery('input.nueva_tarea').val()
+					
+				});
+				
+				jQuery('input.nueva_tarea').attr('placeholder', 'Escribe una tarea y presiona enter ...');
+				
+				jQuery('input.nueva_tarea').css('border', '2px solid #FF7954');
+				
+				jQuery('input.nueva_tarea').val('');
+				
+			} else {
+				
+				jQuery('input.nueva_tarea').attr('placeholder', 'Debes escribir una tarea para continuar ...');
+				
+				jQuery('input.nueva_tarea').css('border', '2px solid #C44A37');
+				
+			}
 			
 		}
 			
@@ -190,7 +192,8 @@ function deleteTask(socket) {
 		
 		e.preventDefault();
 		
-		console.log(jQuery(this).closest('li').find('span.texto_task').text());
+		console.log('Tarea a borrar' + jQuery(this).closest('li').find('span.texto_task').text());
+		console.log('Usuario de tarea a borrar: ' + jQuery('.user').val());
 		
 		socket.emit('borrar tarea', { 
 		
@@ -198,8 +201,6 @@ function deleteTask(socket) {
 			borrar_tarea: jQuery(this).closest('li').find('span.texto_task').text()
 			
 		});
-		
-		jQuery('input.user').remove();
 		
 	});
 		
@@ -256,9 +257,7 @@ function inctiveTask(socket) {
 		
 			console.log('Active');
 			
-			jQuery(this).next('.texto_task').addClass('estado_tarea');			
-			//jQuery(this).closest('li').find('.icon-checkmark').css('color', '#64CE83');
-			
+			jQuery(this).next('.texto_task').addClass('estado_tarea');						
 			
 			// Envíamos petición al servidor para pasar a inactivo
 			

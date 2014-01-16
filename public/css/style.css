@@ -54,7 +54,7 @@ a {
     margin-bottom: 80px;
 }
 div.tasks {
-	margin-top: 40px;
+	margin-top: 20px;
 	position: absolute;
 }
 .tasks ul {
@@ -203,10 +203,8 @@ span.texto_task {
 .editar_task:active {
 	   background: none repeat scroll 0 0 #B5BDC4 !important;
 }
-div.nueva_tarea, div.actualizar_tarea {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 2px solid #F37F52;
-    padding: 14px 24px;
+div.nueva_tarea {
+    margin-bottom: -20px;
 }
 .ckeckbox_active {
     margin-right: 4px;
@@ -215,47 +213,66 @@ div.nueva_tarea, div.actualizar_tarea {
 	text-decoration: line-through;
 	color: #AAB3BB;
 }
-input.nueva_tarea, input.tarea_seleccionada {
-	outline: none;
+input.tarea_seleccionada {
     border: 2px solid #EEEEEE;
     height: 24px;
-    margin-right: 10px;
-    padding: 4px 4px 4px 8px;
-    width: 384px;
     margin-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 10px;
+    outline: medium none;
+    padding: 4px 4px 4px 8px;
+    width: 338px;
+}
+input.nueva_tarea {
+    border: 2px solid #FF7954;
+    border-radius: 2px;
+    height: 42px;
+    margin-bottom: 40px;
+    margin-left: 40px;
+    outline: medium none;
+    padding: 4px 4px 4px 8px;
+    width: 648px;
 }
 input.nueva_tarea:focus, input.tarea_seleccionada:focus {
 	border: 2px solid #71B5B8;
 }
 .custom_modal_style_One h2 {
+    background: none repeat scroll 0 0 #EEEEEE;
     border-bottom: 1px solid #CCCCCC;
     color: #555555;
     font-size: 16px;
     margin-bottom: 32px;
+    margin-top: 0;
     padding-bottom: 12px;
+    padding-top: 10px;
     text-align: center;
 }
-.crear_tarea, .actualizar_tarea_seleccionada {
-	clear: both;
-	-moz-box-sizing: border-box;
+.actualizar_tarea_seleccionada {
+    -moz-box-sizing: border-box;
     background: none repeat scroll 0 0 #64CE83;
     border-color: #3DC264;
     border-radius: 5px;
     border-style: solid;
     border-width: 1px 1px 3px !important;
     box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    clear: both;
     color: #FFFFFF;
     cursor: pointer;
     display: inline-block;
     font-family: "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: bold;
+    margin-left: 20px;
     overflow: hidden;
+    padding: 8px 16px;
     text-align: center;
     text-decoration: none;
     text-overflow: ellipsis;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     white-space: nowrap;
-    padding: 8px 16px;
+}
+.actualizar_tarea.custom_modal_style_One {
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(0, 0, 0, 0.15) inset;
 }
 .close_modal {
     background: none repeat scroll 0 0 #FFFFFF;
@@ -265,6 +282,8 @@ input.nueva_tarea:focus, input.tarea_seleccionada:focus {
     font-size: 12px;
     height: 18px;
     line-height: 16px;
+    margin-right: 8px;
+    margin-top: 8px;
     text-align: center;
     text-decoration: none;
     width: 18px;

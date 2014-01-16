@@ -214,7 +214,7 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 												
 						socket.broadcast.emit('enviamos msg', { 
-							msg: '<span class="success">Otro usuario ha creado una tarea con exito</span>'
+							msg: '<span class="success">Otro usuario ha creado una tarea: ' + nueva_tarea + '</span>'
 						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
@@ -222,7 +222,7 @@ io.sockets.on('connection', function(socket) {
 						});
 						
 						socket.emit('enviamos msg', { 
-							msg: '<span class="success">Se ha creado una tarea con exito</span>'
+							msg: '<span class="success">Tarea creada: ' + nueva_tarea +  '</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -260,7 +260,7 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 						
 						socket.broadcast.emit('enviamos msg', { 
-							msg: '<span class="success">Otro usuario ha borrado una tarea con exito</span>'
+							msg: '<span class="error">Otro usuario ha borrado una tarea:' + borrar_tarea +  '</span>'
 						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
@@ -268,7 +268,7 @@ io.sockets.on('connection', function(socket) {
 						});
 						
 						socket.emit('enviamos msg', { 
-							msg: '<span class="success">Se ha borrado una tarea con exito</span>'
+							msg: '<span class="error">Se ha borrado una tarea: ' + borrar_tarea + '</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -312,7 +312,7 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 					
 						socket.broadcast.emit('enviamos msg', { 
-							msg: '<span class="success">Otro usuario ha actualizado una tarea con exito</span>'
+							msg: '<span class="success">Otro usuario ha actualizado una tarea: ' + oldTask + ' por: ' + editar_tarea + '</span>'
 						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
@@ -320,7 +320,7 @@ io.sockets.on('connection', function(socket) {
 						});
 						
 						socket.emit('enviamos msg', { 
-							msg: '<span class="success">Se ha actualizado una tarea con exito</span>'
+							msg: '<span class="success">Se ha actualizado una tarea ' + oldTask + ', por: ' + editar_tarea + '</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 
@@ -369,17 +369,32 @@ io.sockets.on('connection', function(socket) {
 					if(!err) {
 						
 						console.log('Resultados del estado' + results );
+						
+						if(estado == 1) {
+							
+							socket.broadcast.emit('enviamos msg', { 
+								msg: '<span class="error">Otro usuario ha finalizado una tarea: ' + tarea_seleccionada + '</span>'
+							});
+							
+							socket.emit('enviamos msg', { 
+								msg: '<span class="error">Tarea finalizada: ' + tarea_seleccionada + '</span>'
+							});
+							
+						} else if (estado == 0) {
+							
+							socket.broadcast.emit('enviamos msg', { 
+								msg: '<span class="success">Otro usuario ha vuelto a activar una tarea: ' + tarea_seleccionada + '</span>'
+							});
+							
+							socket.emit('enviamos msg', { 
+								msg: '<span class="success">Tarea activada de nuevo: ' + tarea_seleccionada + '</span>'
+							});							
+							
+						}
 					
-						socket.broadcast.emit('enviamos msg', { 
-							msg: '<span class="success">Otro usuario ha finalizado una tarea</span>'
-						});
 						
 						socket.broadcast.emit('enviamos tasks', { 
 							tasks: results
-						});
-						
-						socket.emit('enviamos msg', { 
-							msg: '<span class="success">Tarea finalizada</span>'
 						});
 						
 						socket.emit('enviamos tasks', { 

@@ -22,16 +22,19 @@
 		</div>
 		
 		<div class="tasks">
+			<div class="nueva_tarea">
+				<input type="text" class="nueva_tarea" placeholder="Escribe una tarea y presiona enter ..." />
+			</div>
 			<ul></ul>
-			<a href="/" class="nueva_tarea_link">Nueva tarea</a>
+			<!--<a href="/" class="nueva_tarea_link">Nueva tarea</a>-->
 		</div>
 		
 		<br>
 		
-		<div class="nueva_tarea">
+		<!--<div class="nueva_tarea">
 			<input type="text" class="nueva_tarea" placeholder="Escribe una tarea ..." />
 			<a href="/" class="crear_tarea">Crear tarea</a>
-		</div>
+		</div>-->
 		
 		<div class="actualizar_tarea">
 			<input type="text" class="tarea_seleccionada" />
@@ -53,7 +56,7 @@
 		jQuery(document).ready(function() {
 			$(function() {
                         
-                $("div.nueva_tarea").modalPro({
+                /*$("div.nueva_tarea").modalPro({
                     modal: this,
 					modaLunch: '.nueva_tarea_link',
 					overlayActive: false, // config true, false
@@ -71,7 +74,7 @@
 					textCloseButton: 'x',
 					seundaryClassButton: 'a.crear_tarea',
 					secundaryCallbackButton: null // Null or function(){}
-                });
+                });*/
                 
                 $("div.actualizar_tarea").modalPro({
                     modal: true,
