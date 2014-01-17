@@ -291,6 +291,22 @@ input.nueva_tarea:focus, input.tarea_seleccionada:focus {
 .close_modal:hover {
 	background: none repeat scroll 0 0 #F2DEDE;
 }
+.buttons_task_selected {
+    margin-top: 40px;
+    text-align: center;
+}
+.buttons_task_selected a {
+    color: #FF7954;
+    margin-right: 8px;
+    text-decoration: none;
+}
+.buttons_task_selected a:hover {
+	color: #AAB3BB;
+}
+.active_task_selected {
+	color: #AAB3BB !important;
+	text-decoration: underline !important;
+}
 footer p {
     color: #555555;
     font-size: 12px;

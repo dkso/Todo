@@ -18,7 +18,9 @@ jQuery(document).ready(function() {
 	
 	jQuery('.nueva_tarea').css('display', 'none');
 	
-	jQuery('.actualizar_tarea').css('display', 'none');
+	jQuery('.actualizar_tarea').css('display', 'none'); 
+	
+	jQuery('.buttons_task_selected').css('display', 'none');
 	
 	crearTask(socket);
 	
@@ -30,7 +32,19 @@ jQuery(document).ready(function() {
 	
 	editTask(socket);
 	
-	// Envío de todas las peticiones
+	// Seleccioamos todas las tareas
+	
+	tasks_all_selected(socket);
+	
+	// Seleccionamos tareas activas
+	
+	tasks_acitve_selected(socket);
+	
+	// Seleccionamos tareas inactivas
+	
+	tasks_inacitve_selected(socket);
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	// Convertimos task inactivos
 	
@@ -44,7 +58,7 @@ jQuery(document).ready(function() {
 		
 			jQuery('.errors_msg').html('');		
 				
-			jQuery('.bienvenida h1').html('Bienvenido ' +  data.user.user );
+			jQuery('.bienvenida h1').html('Sesión activa: ' +  data.user.user );
 			
 			jQuery('.logInUsers').fadeOut(100);
 			
@@ -72,8 +86,6 @@ jQuery(document).ready(function() {
 	
 		jQuery('.tasks ul').empty();
 		
-		console.log(data);
-		
 		for (var i = 0; i < data.tasks.length; i++) {
 		
 			if( data.tasks[i].state == 0 ) {
@@ -84,8 +96,7 @@ jQuery(document).ready(function() {
 				
 			   jQuery('.tasks ul').append('<li><input type="checkbox" class="ckeckbox_active" checked/> <span class="texto_task estado_tarea">' + data.tasks[i].task + '</span> <div class="buttons"><a href="/" class="editar_task"><i class="icon icon-pencil"></i> Editar</a> <a href="/" class="borrar_task"><i class="icon icon-remove"></i> Borrar</a></div></li>');				
 				
-			}
-			   
+			}   
 		   
 		} 
 		
@@ -130,6 +141,10 @@ function LogIn(socket) {
 				
 			});
 			
+			jQuery('.buttons_task_selected').css('display', 'block');
+			
+			jQuery('.buttons_task_selected a.all_tasks').addClass('active_task_selected');
+			
 			jQuery('.nueva_tarea').css('display', 'block');
 			
 		}
@@ -154,6 +169,12 @@ function crearTask(socket) {
     	if(e.which == 13) {
 	
 			e.preventDefault();
+			
+			jQuery('a.all_tasks').addClass('active_task_selected');
+	
+			jQuery('a.active_tasks').removeClass('active_task_selected');
+	
+			jQuery('a.complete_tasks').removeClass('active_task_selected');
 			
 			if(jQuery('input.nueva_tarea').val() != '') {
 				
@@ -192,6 +213,12 @@ function deleteTask(socket) {
 		
 		e.preventDefault();
 		
+		jQuery('a.all_tasks').addClass('active_task_selected');
+		
+		jQuery('a.active_tasks').removeClass('active_task_selected');
+		
+		jQuery('a.complete_tasks').removeClass('active_task_selected');
+		
 		console.log('Tarea a borrar' + jQuery(this).closest('li').find('span.texto_task').text());
 		console.log('Usuario de tarea a borrar: ' + jQuery('.user').val());
 		
@@ -223,6 +250,12 @@ function editTask(socket) {
 		
 		jQuery('.actualizar_tarea_seleccionada').click(function(e) {
 		
+			jQuery('a.all_tasks').addClass('active_task_selected');
+		
+			jQuery('a.active_tasks').removeClass('active_task_selected');
+		
+			jQuery('a.complete_tasks').removeClass('active_task_selected');
+		
 			e.preventDefault();
 			
 			socket.emit('editar tarea', { 
@@ -250,6 +283,12 @@ function editTask(socket) {
 function inctiveTask(socket) {
 	
 	jQuery(document).on('change', 'input.ckeckbox_active', function() {
+	
+		jQuery('a.all_tasks').addClass('active_task_selected');
+		
+		jQuery('a.active_tasks').removeClass('active_task_selected');
+		
+		jQuery('a.complete_tasks').removeClass('active_task_selected');
 		
 		if  (jQuery(this).is(':checked') ) {
 		
@@ -291,5 +330,77 @@ function inctiveTask(socket) {
 		return false;
 		
 	});
+	
+}
+
+// Seleccionar todas las tareas
+
+function tasks_all_selected(socket) {
+	
+	jQuery(document).on('click', 'a.all_tasks', socket, function(e) {
+		
+		e.preventDefault();
+		
+		jQuery('a.active_tasks').removeClass('active_task_selected');
+		
+		jQuery('a.complete_tasks').removeClass('active_task_selected');
+		
+		jQuery(this).addClass('active_task_selected');
+		
+		socket.emit('show all', { 
+			
+			nombre: jQuery('.user').val()
+			
+		});
+		
+	}); 
+	
+}
+
+// Seleccionar solo tareas activas
+
+function tasks_acitve_selected(socket) {
+	
+	jQuery(document).on('click', 'a.active_tasks', socket, function(e) {
+		
+		e.preventDefault();
+		
+		jQuery('a.all_tasks').removeClass('active_task_selected');
+		
+		jQuery('a.complete_tasks').removeClass('active_task_selected');
+		
+		jQuery(this).addClass('active_task_selected');
+		
+		socket.emit('show active tasks', { 
+			
+			nombre: jQuery('.user').val()
+			
+		});
+		
+	}); 
+	
+}
+
+// Seleccionar tareas desactivadas
+
+function tasks_inacitve_selected(socket) {
+	
+	jQuery(document).on('click', 'a.complete_tasks', socket, function(e) {
+		
+		e.preventDefault();
+		
+		jQuery('a.all_tasks').removeClass('active_task_selected');
+		
+		jQuery('a.active_tasks').removeClass('active_task_selected');
+		
+		jQuery(this).addClass('active_task_selected');
+		
+		socket.emit('show inactive', { 
+			
+			nombre: jQuery('.user').val()
+			
+		});
+		
+	}); 
 	
 }

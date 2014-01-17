@@ -294,56 +294,59 @@ io.sockets.on('connection', function(socket) {
     	
     	var usuario = data.nombre,
     		oldTask = data.tarea,
-    		editar_tarea = data.editar_tarea,
-    		sql = 'UPDATE todoApp_tasks SET task="' + editar_tarea + '" WHERE task=' + connection.escape(oldTask) + ' AND user= ' + connection.escape(usuario);
-			
-		// UPDATE `todoApp_tasks` SET `id`=[value-1],`task`=[value-2],`user`=[value-3],`state`=[value-4] WHERE 1
-		connection.query(sql, function(err, results) {
-			 
-			 if(!err) {
+    		editar_tarea = data.editar_tarea;
+    		
+    	if(oldTask != editar_tarea) {
+    		
+	    	var	sql = 'UPDATE todoApp_tasks SET task="' + editar_tarea + '" WHERE task=' + connection.escape(oldTask) + ' AND user= ' + connection.escape(usuario);
 				
-				// Enviamos de nuevo los resultados
-				
-				var usuario = data.nombre,
-					query    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
-				
-				connection.query(query, function(err, results) {
-
-					if(!err) {
+			connection.query(sql, function(err, results) {
+				 
+				 if(!err) {
 					
-						socket.broadcast.emit('enviamos msg', { 
-							msg: '<span class="success">Otro usuario ha actualizado una tarea: ' + oldTask + ' por: ' + editar_tarea + '</span>'
-						});
-						
-						socket.broadcast.emit('enviamos tasks', { 
-							tasks: results
-						});
-						
-						socket.emit('enviamos msg', { 
-							msg: '<span class="success">Se ha actualizado una tarea ' + oldTask + ', por: ' + editar_tarea + '</span>'
-						});
-						
-						socket.emit('enviamos tasks', { 
-							tasks: results
-						});
-
-						
-					} else {
-						
-						console.log('Ha ocurrido un error: ' + err );
-					}
+					// Enviamos de nuevo los resultados
 					
-				});
-				
-				// 
+					var usuario = data.nombre,
+						query    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
 					
-			} else {
+					connection.query(query, function(err, results) {
+	
+						if(!err) {
+						
+							socket.broadcast.emit('enviamos msg', { 
+								msg: '<span class="success">Otro usuario ha actualizado una tarea: ' + oldTask + '</span>'
+							});
+							
+							socket.broadcast.emit('enviamos tasks', { 
+								tasks: results
+							});
+							
+							socket.emit('enviamos msg', { 
+								msg: '<span class="success">Se ha actualizado una tarea ' + oldTask + '</span>'
+							});
+							
+							socket.emit('enviamos tasks', { 
+								tasks: results
+							});
+	
+							
+						} else {
+							
+							console.log('Ha ocurrido un error: ' + err );
+						}
+						
+					});
+					
+					// 
+						
+				} else {
+					
+					console.log( 'Ha ocurrrido un error en la consulta: ' + err );
+					
+				}
 				
-				console.log( 'Ha ocurrrido un error en la consulta: ' + err );
-				
-			}
-			
-		});
+			});
+		}
 	});
 	
 	// Cambiamos estado de la tarea
@@ -354,8 +357,6 @@ io.sockets.on('connection', function(socket) {
     		tarea_seleccionada = data.tarea_seleccionada,
     		estado = data.estado,
     		sql = 'UPDATE todoApp_tasks SET task="' + tarea_seleccionada + '", state="' + estado + '" WHERE task=' + connection.escape(tarea_seleccionada) + ' AND user= ' + connection.escape(usuario);
-    		
-    	// UPDATE `todoApp_tasks` SET `id`=[value-1],`task`=[value-2],`user`=[value-3],`state`=[value-4] WHERE 1
 			
 		connection.query(sql, function(err, results) {
 			 
@@ -412,6 +413,66 @@ io.sockets.on('connection', function(socket) {
 			} else {
 				
 				console.log( 'Ha ocurrrido un error en la consulta: ' + err );
+				
+			}
+			
+		});
+	});
+	
+	// Seleccionamos todas las tareas
+
+	socket.on('show all', function (data) {
+		
+		var usuario = data.nombre,
+			sql    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario);
+		
+		connection.query(sql, function(err, results) {
+			
+			if(!err) {
+				
+				socket.emit('enviamos tasks', { 
+					tasks: results
+				});
+				
+			}
+			
+		});
+	});	
+	
+	// Seleccionamos tareas activas
+
+	socket.on('show active tasks', function (data) {
+		
+		var usuario = data.nombre,
+			sql    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario) + ' AND state=0';
+		
+		connection.query(sql, function(err, results) {
+			
+			if(!err) {
+				
+				socket.emit('enviamos tasks', { 
+					tasks: results
+				});
+				
+			}
+			
+		});
+	});
+	
+	// Seleccionamos tareas inactivas
+
+	socket.on('show inactive', function (data) {
+		
+		var usuario = data.nombre,
+			sql    = 'SELECT task, user, state FROM todoApp_tasks WHERE user = ' + connection.escape(usuario) + ' AND state=1';
+		
+		connection.query(sql, function(err, results) {
+			
+			if(!err) {
+				
+				socket.emit('enviamos tasks', { 
+					tasks: results
+				});
 				
 			}
 			
